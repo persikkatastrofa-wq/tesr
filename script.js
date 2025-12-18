@@ -1,49 +1,50 @@
-function choose(option) {
-  const text = document.getElementById("text");
-  const choices = document.getElementById("choices");
+// Первая сцена
+const scene1 = {
+  text: `Я сижу за длинным столом. Деревянные доски под локтями холодные, а воздух в зале густой от свечей и тяжёлой тишины. Каждое слово родителей — словно удар молотка в груди, каждое движение — экзамен, от которого невозможно отвести взгляд. 
+Я слышу, как где-то за спиной поскрипывает половица, как тихо дышат сёстры. Всё вокруг подчинено правилам. И я чувствую, как внутри растёт что-то, что нельзя сдержать слишком долго.
+Сегодняшний вечер обычный, но я знаю: одно неверное слово, один резкий жест — и позор повиснет надо мной, как тень от деревьев в полдень. Сердце стучит быстрее, руки потеют. В горле стоит ком, но я должен выбрать, что делать.`,
+  choices: [
+    { text: "Сдержаться, улыбнуться, ничего не сказать.", effect: "suppress" },
+    { text: "Ответить резко, сказать то, что думаю.", effect: "outburst" },
+    { text: "Скрыться, уйти в свою комнату.", effect: "hide" }
+  ]
+};
 
-  if (option === 1) {
-    text.textContent = "Ты медленно оглядываешься. Стены покрыты трещинами, будто они устали держаться.";
-    choices.innerHTML = `
-      <button onclick="choose(3)">Подойти к стене</button>
-      <button onclick="choose(4)">Отвернуться</button>
-    `;
-    animateButtons();
-  }
+// Функция отображения сцены
+function showScene(scene) {
+  const textDiv = document.getElementById("text");
+  const choicesDiv = document.getElementById("choices");
 
-  if (option === 2) {
-    text.textContent = "Ты остаёшься на месте. Тишина давит сильнее, чем движение.";
-    choices.innerHTML = `
-      <button onclick="choose(1)">Всё-таки осмотреться</button>
-    `;
-    animateButtons();
-  }
+  textDiv.textContent = scene.text;
 
-  if (option === 3) {
-    text.textContent = "Приблизившись, ты замечаешь слабый свет из трещины.";
-    choices.innerHTML = `
-      <button onclick="choose(5)">Коснуться стены</button>
-    `;
-    animateButtons();
-  }
-
-  if (option === 4) {
-    text.textContent = "Ты отворачиваешься. Иногда лучше не знать.";
-    choices.innerHTML = ``;
-    animateButtons();
-  }
-
-  if (option === 5) {
-    text.textContent = "Стена тёплая. История продолжается…";
-    choices.innerHTML = ``;
-    animateButtons();
-  }
-}
-
-function animateButtons() {
-  const buttons = document.querySelectorAll("#choices button");
-  buttons.forEach((button, index) => {
-    button.classList.add("fade-in");
-    button.style.animationDelay = `${index * 0.1}s`;
+  choicesDiv.innerHTML = "";
+  scene.choices.forEach(choice => {
+    const btn = document.createElement("button");
+    btn.textContent = choice.text;
+    btn.onclick = () => choose(choice.effect);
+    btn.classList.add("fade-in");
+    btn.style.animationDelay = `${Math.random() * 0.3}s`;
+    choicesDiv.appendChild(btn);
   });
 }
+
+// Функция выбора
+function choose(effect) {
+  const textDiv = document.getElementById("text");
+  const choicesDiv = document.getElementById("choices");
+
+  if (effect === "suppress") {
+    textDiv.textContent = "Я сдерживаю себя, улыбаюсь, скрывая бурю внутри. Сердце колотится, но никто не замечает внутренней тревоги.";
+  }
+  if (effect === "outburst") {
+    textDiv.textContent = "Я выпускаю гнев наружу, голос дрожит, руки сжаты. Родители морщат лбы, уважение к моей дисциплине падает, но мне легче дышать.";
+  }
+  if (effect === "hide") {
+    textDiv.textContent = "Я скользну прочь, слышу собственное сердце громче, чем голоса за столом. Безопасно, но пустота внутри растёт, потому что я снова не показал себя.";
+  }
+
+  choicesDiv.innerHTML = `<button onclick="alert('Следующая сцена будет готова позже')">Продолжить</button>`;
+}
+
+// Старт
+showScene(scene1);
