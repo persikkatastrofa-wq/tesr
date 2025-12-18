@@ -18,12 +18,12 @@ body {
   margin-bottom: 30px;
 }
 
-#choices button, #save-load-buttons button {
+#choices button {
   display: block;
   width: 100%;
   margin-bottom: 12px;
   padding: 14px;
-  background-color: #1a1f33; /* темнее */
+  background-color: #1a1f33;
   color: #ffffff;
   border: 2px solid #ffffff;
   border-radius: 14px;
@@ -32,7 +32,7 @@ body {
   transition: background-color 0.3s ease, transform 0.2s ease, opacity 0.4s ease;
 }
 
-#choices button:hover, #save-load-buttons button:hover {
+#choices button:hover {
   background-color: #2a3050;
   transform: translateY(-2px);
 }
@@ -44,8 +44,8 @@ body {
 }
 
 .small-btn {
-  width: auto;
-  padding: 8px 12px;
+  width: 100px;
+  padding: 8px 0;
   font-size: 14px;
 }
 
@@ -54,7 +54,7 @@ body {
   width: 100px;
   height: 50px;
   margin: 8px;
-  background-color: #151a2b; /* чуть светлее фона */
+  background-color: #151a2b;
   color: #ffffff;
   border: 2px solid #ffffff;
   border-radius: 8px;
@@ -68,21 +68,6 @@ body {
   transform: translateY(-2px);
 }
 
-#back-btn {
-  display: inline-block;
-  margin-top: 10px;
-  padding: 6px 10px;
-  background-color: #1a1f33;
-  border: 2px solid #ffffff;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 14px;
-}
-
-#back-btn:hover {
-  background-color: #2a3050;
-}
-
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: translateY(0); }
@@ -91,6 +76,5 @@ body {
 .fade-in {
   animation: fadeIn 0.5s ease forwards;
 }
-
 
 
