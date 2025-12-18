@@ -1,4 +1,4 @@
-// Первая сцена
+// --- Первая сцена ---
 const scene1 = {
   text: `Я сижу за длинным столом. Деревянные доски под локтями холодные, а воздух в зале густой от свечей и тяжёлой тишины. Каждое слово родителей — словно удар молотка в груди, каждое движение — экзамен, от которого невозможно отвести взгляд. 
 Я слышу, как где-то за спиной поскрипывает половица, как тихо дышат сёстры. Всё вокруг подчинено правилам. И я чувствую, как внутри растёт что-то, что нельзя сдержать слишком долго.
@@ -10,7 +10,11 @@ const scene1 = {
   ]
 };
 
-// Функция отображения сцены
+// --- Глобальные переменные ---
+let currentScene = scene1; // текущая сцена
+let lastChoice = null;     // последний выбор
+
+// --- Функция отображения сцены ---
 function showScene(scene) {
   const textDiv = document.getElementById("text");
   const choicesDiv = document.getElementById("choices");
@@ -28,8 +32,9 @@ function showScene(scene) {
   });
 }
 
-// Функция выбора
+// --- Функция обработки выбора ---
 function choose(effect) {
+  lastChoice = effect; // сохраняем текущий выбор
   const textDiv = document.getElementById("text");
   const choicesDiv = document.getElementById("choices");
 
@@ -43,8 +48,29 @@ function choose(effect) {
     textDiv.textContent = "Я скользну прочь, слышу собственное сердце громче, чем голоса за столом. Безопасно, но пустота внутри растёт, потому что я снова не показал себя.";
   }
 
+  // Кнопка для продолжения (пока заглушка)
   choicesDiv.innerHTML = `<button onclick="alert('Следующая сцена будет готова позже')">Продолжить</button>`;
 }
 
-// Старт
+// --- Функции сохранения и загрузки прогресса ---
+function saveProgress() {
+  if (lastChoice) {
+    localStorage.setItem('savedChoice', lastChoice);
+    alert('Прогресс сохранён!');
+  } else {
+    alert('Сначала сделайте выбор.');
+  }
+}
+
+function loadProgress() {
+  const saved = localStorage.getItem('savedChoice');
+  if (saved) {
+    choose(saved);
+    alert('Прогресс загружен!');
+  } else {
+    alert('Сохранения нет.');
+  }
+}
+
+// --- Старт игры ---
 showScene(scene1);
