@@ -52,54 +52,70 @@ function choose(effect) {
   choicesDiv.innerHTML = `<button onclick="alert('Следующая сцена будет готова позже')">Продолжить</button>`;
 }
 
-// --- Функции для сохранения и загрузки через слоты ---
+// --- Показ слотов сохранения ---
 function showSaveSlots() {
   const textDiv = document.getElementById("text");
   const choicesDiv = document.getElementById("choices");
 
-  choicesDiv.innerHTML = "";
   textDiv.textContent = "Выберите слот для сохранения:";
+  choicesDiv.innerHTML = "";
 
   for (let i = 1; i <= 6; i++) {
-    const btn = document.createElement("button");
+    const slotBtn = document.createElement("button");
     const slotName = localStorage.getItem(`slot${i}`) || "Пусто";
-    btn.textContent = `Слот ${i}: ${slotName}`;
-    btn.onclick = () => {
+    slotBtn.textContent = slotName;
+    slotBtn.classList.add("slot-button");
+    slotBtn.onclick = () => {
       localStorage.setItem(`slot${i}`, currentScene.id + "|" + (lastChoice || ""));
       alert(`Прогресс сохранён в слот ${i}`);
       showScene(currentScene);
     };
-    choicesDiv.appendChild(btn);
+    choicesDiv.appendChild(slotBtn);
   }
+
+  addBackButton();
 }
 
+// --- Показ слотов загрузки ---
 function showLoadSlots() {
   const textDiv = document.getElementById("text");
   const choicesDiv = document.getElementById("choices");
 
-  choicesDiv.innerHTML = "";
   textDiv.textContent = "Выберите слот для загрузки:";
+  choicesDiv.innerHTML = "";
 
   for (let i = 1; i <= 6; i++) {
     const saved = localStorage.getItem(`slot${i}`);
     const display = saved ? saved.split("|")[0] : "Пусто";
-    const btn = document.createElement("button");
-    btn.textContent = `Слот ${i}: ${display}`;
-    btn.onclick = () => {
+    const slotBtn = document.createElement("button");
+    slotBtn.textContent = display;
+    slotBtn.classList.add("slot-button");
+    slotBtn.onclick = () => {
       if (saved) {
         const parts = saved.split("|");
-        const sceneId = parts[0];
-        const choice = parts[1] || null;
-        lastChoice = choice;
-        alert(`Прогресс из слота ${i} загружен. Выбранный вариант: ${choice || "нет"}`);
-        showScene(currentScene); // пока возвращаем на текущую сцену
+        lastChoice = parts[1] || null;
+        alert(`Прогресс из слота ${i} загружен. Выбранный вариант: ${lastChoice || "нет"}`);
+        showScene(currentScene);
       } else {
         alert("Слот пуст.");
       }
     };
-    choicesDiv.appendChild(btn);
+    choicesDiv.appendChild(slotBtn);
   }
+
+  addBackButton();
+}
+
+// --- Добавление кнопки "Назад" ---
+function addBackButton() {
+  const choicesDiv = document.getElementById("choices");
+  const backBtn = document.createElement("button");
+  backBtn.id = "back-btn";
+  backBtn.textContent = "Назад";
+  backBtn.onclick = () => showScene(currentScene);
+  choicesDiv.appendChild(backBtn);
 }
 
 // --- Старт игры ---
 showScene(currentScene);
+
